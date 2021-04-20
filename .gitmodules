@@ -1,0 +1,3 @@
+[submodule "Ktoggl"]
+	path = Ktoggl
+	url = git@github.com:remylavergne/Ktoggl.git
