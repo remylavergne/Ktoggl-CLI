@@ -5,9 +5,7 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
-import dev.remylavergne.ktoggl.API_KEY
 import dev.remylavergne.ktoggl.USER_AGENT
-import dev.remylavergne.ktoggl.WORKSPACE_ID
 import dev.remylavergne.ktoggl.report.KtogglReportApi
 import dev.remylavergne.ktoggl.report.models.BaseDetailed
 import dev.remylavergne.ktoggl.report.models.TimeEntry
@@ -26,6 +24,16 @@ class SAP : CliktCommand(
     invokeWithoutSubcommand = true,
     printHelpOnEmptyArgs = true
 ) {
+    private val apiKey: String by option(
+        "-a",
+        "--api-key",
+        help = "API Toggl key"
+    ).default("")
+    private val workspaceId: String by option(
+        "-w",
+        "--workspace",
+        help = "The workspace ID targeted"
+    ).default("")
     private val since: String by option(
         "-s",
         "--since",
@@ -44,16 +52,21 @@ class SAP : CliktCommand(
 
 
     override fun run() {
+
+        if (apiKey.isEmpty() || workspaceId.isEmpty()) {
+            throw Exception("Manadatory informations are missing")
+        }
+        
         val ktogglReportApi = KtogglReportApi {
             account {
-                apiToken(API_KEY)
+                apiToken(apiKey)
             }
         }
 
         val apiResult: ApiResult<BaseDetailed> = runBlocking {
             return@runBlocking ktogglReportApi.detailsWithoutPaging {
                 userAgent(USER_AGENT)
-                workspaceId(WORKSPACE_ID)
+                workspaceId(workspaceId)
 
                 if (since.isNotEmpty()) {
                     since(LocalDate.parse(since))
