@@ -25,10 +25,10 @@ Exemple de commande pour générer ce fichier :
 ktoggl sap --api-key votre_clef_api_toggl --workspace le_workspace_id_voulu --since 2021-04-15
 ```
 
-`--api-key` : Votre clef API se trouve dans vos paramètres de compte Toggl
-`--workspace` : L'id du workspace visé (se trouve facilement dans l'url)
-`--since` : Date de début pour la récupération des données
-`--until` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)
+`--api-key` : Votre clef API se trouve dans vos paramètres de compte Toggl <br />
+`--workspace` : L'id du workspace visé (se trouve facilement dans l'url)<br />
+`--since` : Date de début pour la récupération des données<br />
+`--until` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
 
 A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en plus, ou en moins.
 
