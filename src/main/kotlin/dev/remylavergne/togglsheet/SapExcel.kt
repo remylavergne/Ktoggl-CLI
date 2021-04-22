@@ -1,51 +1,49 @@
 package dev.remylavergne.togglsheet
 
+import dev.remylavergne.togglsheet.models.SapExcelData
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.FileOutputStream
-import java.time.LocalDate
 
-
+/**
+ * This class is responsible for the final Excel generation file
+ */
 data class SapExcel(
     private val data: List<SapExcelData>,
 ) {
 
     private val workbook: Workbook = XSSFWorkbook()
-    private val sheet: Sheet = workbook.createSheet("SAP")
-    private val columns: List<String> = listOf(
-        "Date",
-        "Project",
-        "Project Description",
-        "Task",
-        "Task Description",
-        "Customer Name",
-        "H.",
-        "Sp.",
-        "Ticket",
-        "Comment"
+    private val sheet: Sheet = workbook.createSheet("Data")
+
+    private val columns: Map<String, String> = mapOf(
+        "WDATE" to "Date",
+        "PRJNO" to "Project",
+        "PRJTX" to "Project Description",
+        "TSKNO" to "Task",
+        "TSKTX" to "Task Description",
+        "KUNNM" to "Customer Name",
+        "RLTIM" to "H.",
+        "SPTIM" to "Sp.",
+        "TICKT" to "Ticket",
+        "LTEXT" to "Comment",
     )
 
     fun generate() {
+        createHeaderKeys()
         createHeader()
         createBody()
         createFile()
     }
 
-    private fun createBody() {
-        var rowNum = 1
+    private fun createHeaderKeys() {
+        val headerRow = sheet.createRow(0)
 
-        for (task in data) {
-            val row: Row = sheet.createRow(rowNum++)
-            row.createCell(0).setCellValue(task.date)
-            row.createCell(1).setCellValue(task.project)
-            row.createCell(2).setCellValue(task.projectDescription)
-            row.createCell(3).setCellValue(task.task)
-            row.createCell(4).setCellValue(task.taskDescription)
-            row.createCell(5).setCellValue(task.customerName)
-            row.createCell(6).setCellValue(task.supplyHours)
-            row.createCell(7).setCellValue(task.sp)
-            row.createCell(8).setCellValue(task.ticket)
-            row.createCell(9).setCellValue(task.comment)
+        var columnIndex = 0
+        for ((key, _) in columns) {
+            val cell = headerRow.createCell(columnIndex)
+            cell.setCellValue(key)
+
+            columnIndex++
         }
 
     }
@@ -61,13 +59,35 @@ data class SapExcel(
             setFont(headerFont)
         }
 
-        val headerRow = sheet.createRow(0)
+        val headerRow = sheet.createRow(1)
 
-        for (i in columns.indices) {
-            val cell = headerRow.createCell(i)
-            cell.setCellValue(columns[i])
+        var columnIndex = 0
+        for ((_, columnTitle) in columns) {
+            val cell = headerRow.createCell(columnIndex)
+            cell.setCellValue(columnTitle)
             cell.cellStyle = headerCellStyle
+
+            columnIndex++
         }
+    }
+
+    private fun createBody() {
+        var rowNum = 2
+
+        for (task in data) {
+            val row: Row = sheet.createRow(rowNum++)
+            row.createCell(0).setCellValue(task.date)
+            row.createCell(1).setCellValue(task.project)
+            row.createCell(2).setCellValue(task.projectDescription)
+            row.createCell(3).setCellValue(task.task)
+            row.createCell(4).setCellValue(task.taskDescription)
+            row.createCell(5).setCellValue(task.customerName)
+            row.createCell(6).setCellValue(task.hours.millisToSapHours())
+            row.createCell(7).setCellValue(task.sp)
+            row.createCell(8).setCellValue(task.ticket)
+            row.createCell(9).setCellValue(task.comment)
+        }
+
     }
 
     private fun createFile(name: String = "${System.currentTimeMillis()}_${data.first().date}_${data.last().date}.xlsx") {
@@ -76,29 +96,3 @@ data class SapExcel(
         fileOut.close()
     }
 }
-
-interface SapExcelData {
-    val date: LocalDate
-    val project: String
-    val projectDescription: String
-    val task: String
-    val taskDescription: String
-    val customerName: String
-    val supplyHours: Double
-    val sp: Boolean
-    val ticket: String
-    val comment: String
-}
-
-data class SapExcelDataImpl(
-    override val date: LocalDate,
-    override val project: String,
-    override val projectDescription: String,
-    override val task: String,
-    override val taskDescription: String,
-    override val customerName: String,
-    override val supplyHours: Double,
-    override val ticket: String,
-    override val comment: String,
-    override val sp: Boolean = false,
-) : SapExcelData

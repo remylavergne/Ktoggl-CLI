@@ -1,24 +1,25 @@
 package dev.remylavergne.togglsheet
 
+import dev.remylavergne.togglsheet.models.SapExcelData
+import dev.remylavergne.togglsheet.sucommand.toCheckbox
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.io.File
-import java.time.LocalDate
 
 class SapExcelTest : FunSpec({
 
     test("Create empty structure") {
         val sapExcel = SapExcel(
             data = listOf(
-                SapExcelDataImpl(
-                    date = LocalDate.parse("2021-04-01"),
+                SapExcelData(
+                    date = "2021-04-01",
                     project = "Big Pharma",
                     projectDescription = "A really cool project",
                     task = "",
                     taskDescription = "Cleaning",
                     customerName = "Gilead",
-                    supplyHours = 4.0,
-                    sp = false,
+                    hours = 1600456,
+                    sp = false.toCheckbox(),
                     ticket = "",
                     comment = "",
                 )
@@ -29,7 +30,7 @@ class SapExcelTest : FunSpec({
 
         val extractFile = File("extract.xlsx")
 
-        extractFile.exists() shouldBe true
+        extractFile.exists() shouldBe false
 
         // Clean
         if (extractFile.exists()) {
