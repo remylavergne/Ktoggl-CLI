@@ -56,7 +56,7 @@ class SAP : CliktCommand(
         if (apiKey.isEmpty() || workspaceId.isEmpty()) {
             throw Exception("Manadatory informations are missing")
         }
-        
+
         val ktogglReportApi = KtogglReportApi {
             account {
                 apiToken(apiKey)
