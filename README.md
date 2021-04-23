@@ -2,7 +2,7 @@
 
 Ktoggl CLI vous permet d'utiliser l'API Toggl via un CLI entièrement écrit en Kotlin.
 
-La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos enregistrements sur l'application **Toggl**.
+La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos enregistrements sur l'application [**Toggl**](https://toggl.com/track/toggl-desktop/).
 
 ## Fonctionnalités
 
