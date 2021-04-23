@@ -61,4 +61,6 @@ Total expected: 112 hours
 
 Le fichier Excel généré est directement importable dans **SAP CATS**. Vous pouvez ainsi ajuster vos pointages avec le compte rendu.
 
-Vous remarquerez que les heures ont été arrondies pour respecter le standard de pointage de **SAP CATS**.
+![](./readme-resources/excel-export-example.png)
+
+Vous remarquerez que les heures ont été arrondies au quart supérieur, ou inférieur, pour respecter le standard de pointage de **SAP CATS**.
