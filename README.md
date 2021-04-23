@@ -64,4 +64,4 @@ Le fichier Excel généré est directement importable dans **SAP CATS**. Vous po
 
 Vous remarquerez que les heures ont été arrondies au quart supérieur, ou inférieur, pour respecter le standard de pointage de **SAP CATS**.
 
-Vous pouvez maintenant uploadé cet Excel dans votre **SAP CATS**.
+Vous pouvez maintenant uploader cet Excel dans votre **SAP CATS**.
