@@ -2,18 +2,17 @@
 
 Ktoggl CLI vous permet d'utiliser l'API Toggl via un CLI entièrement écrit en Kotlin.
 
-La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos enregistrement sur l'application **Toggl**.
-
+La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos enregistrements sur l'application **Toggl**.
 
 ## Fonctionnalités
 
 ### 🐈 Export pointages **SAP CATS**
 
-⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du projet. En effet, avec la version gratuite de Toggl, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme un workaround 🤓
+⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme un workaround 🤓
 
-**SAP CATS** fonctionne sous cette forme : id_projet description_projet id_tâche description_tâche
+Les projets dans **Ktoggl CLI** doivent être sous cette forme : `id_projet description_projet id_tâche description_tâche`
 
-Si un nom de client est disponible, il faut le rajouter aussi. Attention à la casse !
+Si un nom de client est disponible, il faut le rajouter aussi. *Attention à la casse !*
 
 ![](./readme-resources/project-formating-example.png)
 
