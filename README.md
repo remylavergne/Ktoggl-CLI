@@ -7,7 +7,7 @@ La première feature disponible est la génération d'un *Excel* de timesheets u
 
 ## Fonctionnalités
 
-### Export pointages **SAP CATS**
+### 🐈 Export pointages **SAP CATS**
 
 ⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du projet. En effet, avec la version gratuite de Toggl, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme un workaround 🤓
 
