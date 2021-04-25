@@ -1,8 +1,8 @@
 package dev.remylavergne.togglsheet
 
 import com.github.ajalt.clikt.core.subcommands
-import dev.remylavergne.togglsheet.sucommand.Outlook
-import dev.remylavergne.togglsheet.sucommand.SAP
+import dev.remylavergne.togglsheet.subcommand.Outlook
+import dev.remylavergne.togglsheet.subcommand.SAP
 
 
 fun main(args: Array<String>) =

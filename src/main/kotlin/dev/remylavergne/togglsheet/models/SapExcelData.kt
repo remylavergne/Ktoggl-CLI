@@ -8,7 +8,7 @@ data class SapExcelData(
     val task: String,
     val taskDescription: String,
     val customerName: String,
-    val hours: Long,
+    val hours: Double,
     val ticket: String,
     val comment: String,
     val sp: String = "",
