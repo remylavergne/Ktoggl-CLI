@@ -82,7 +82,7 @@ data class SapExcel(
             row.createCell(3).setCellValue(task.task)
             row.createCell(4).setCellValue(task.taskDescription)
             row.createCell(5).setCellValue(task.customerName)
-            row.createCell(6).setCellValue(task.hours.millisToSapHours())
+            row.createCell(6).setCellValue(task.hours)
             row.createCell(7).setCellValue(task.sp)
             row.createCell(8).setCellValue(task.ticket)
             row.createCell(9).setCellValue(task.comment)

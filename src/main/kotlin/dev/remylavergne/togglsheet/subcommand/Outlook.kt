@@ -1,4 +1,4 @@
-package dev.remylavergne.togglsheet.sucommand
+package dev.remylavergne.togglsheet.subcommand
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.help

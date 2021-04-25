@@ -1,7 +1,7 @@
 package dev.remylavergne.togglsheet
 
 import dev.remylavergne.togglsheet.models.SapExcelData
-import dev.remylavergne.togglsheet.sucommand.toCheckbox
+import dev.remylavergne.togglsheet.subcommand.toCheckbox
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.io.File
@@ -18,7 +18,7 @@ class SapExcelTest : FunSpec({
                     task = "",
                     taskDescription = "Cleaning",
                     customerName = "Gilead",
-                    hours = 1600456,
+                    hours = 1600456.0,
                     sp = false.toCheckbox(),
                     ticket = "",
                     comment = "",

@@ -32,6 +32,6 @@ fun Long.millisToSapHours(): Double {
     }
 }
 
-fun String.iso8601ToYMD(): String {
+fun String.iso8601ToSimpleDate(): String {
     return this.split("T").first()
 }
