@@ -6,7 +6,9 @@ La première feature disponible est la génération d'un *Excel* de timesheets u
 
 ## Fonctionnalités
 
-### 🐈 Export pointages **SAP CATS**
+### Export pointages **SAP CATS** 🐈
+
+![](./readme-resources/toggl-to-sap.png)
 
 ⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme un workaround 🤓
 
@@ -28,6 +30,7 @@ ktoggl sap --api-key votre_clef_api_toggl --workspace le_workspace_id_voulu --si
 `--workspace` : L'id du workspace visé (se trouve facilement dans l'url)<br />
 `--since` : Date de début pour la récupération des données<br />
 `--until` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
+`--no-group` : Ne pas grouper les mêmes projets sur une journée<br />
 
 A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en plus, ou en moins.
 

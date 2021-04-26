@@ -103,7 +103,6 @@ class SAP : CliktCommand(
         } else {
             baseDetails.toSapExcelData()
         }
-
     }
 
     private fun generateExcelFile(data: List<SapExcelData>) {
@@ -117,10 +116,8 @@ class SAP : CliktCommand(
      * Affiche dans la console, un résumé de la génération avec des informations sur les différences de temps par jour
      */
     private fun displayReport(data: BaseDetails) {
-        val totalHours = data.totalGrand?.toHours() ?: 0
-        val entriesPerDay: Map<String, List<TimeEntry>> = data.data.groupBy { timeEntry: TimeEntry ->
-            timeEntry.start.iso8601ToSimpleDate()
-        }.filter { map -> map.value.isNotEmpty() }
+        val entriesPerDay: Map<String, List<TimeEntry>> = data.data.groupByDayWithEntries()
+        val totalHours = data.data.map { it.dur }.sum().toHours()
 
         TermUi.echo("\n-> Summary")
         TermUi.echo("${entriesPerDay.size} days exported") // TODO: Calcul faux car compte les week-end // Sortir les jours à 0h / tasks ?
@@ -141,7 +138,8 @@ class SAP : CliktCommand(
             when {
                 diffHours < 0.0 -> TermUi.echo("- $date: + ${diffHours * -1}")
                 diffHours > 0.0 -> TermUi.echo("- $date: - $diffHours")
-                else -> TermUi.echo("- $date: $diffHours")
+                else -> {
+                }
             }
         }
     }
@@ -173,7 +171,7 @@ fun BaseDetails.toSapExcelData(): List<SapExcelData> {
 
 /**
  * Transform a [BaseDetails] API response to an [SapExcelData] list
- * Entries
+ * Every duplicate day entries are grouped to a single one (hours and description)
  * This list is used to generate SAP timesheets Excel file
  */
 fun BaseDetails.toSapExcelGroupedData(): List<SapExcelData> {
@@ -185,7 +183,9 @@ fun BaseDetails.toSapExcelGroupedData(): List<SapExcelData> {
         val groupByDailyProject = dayEntries.groupBy { it.pid }.values
 
         groupByDailyProject.map { projectTimeEntries: List<TimeEntry> ->
+            // Concat informations
             val projectHoursSum: Long = projectTimeEntries.sumOf { it.dur }
+            val projectDescriptions = projectTimeEntries.joinToString(separator = " ; ") { it.description }
 
             val projectData = ProjectData(projectTimeEntries.first().project ?: "")
 
@@ -199,12 +199,11 @@ fun BaseDetails.toSapExcelGroupedData(): List<SapExcelData> {
                 hours = projectHoursSum.millisToSapHours(),
                 sp = false.toCheckbox(),
                 ticket = "",
-                comment = projectTimeEntries.first().description,
+                comment = projectDescriptions,
             )
         }
     }.flatten()
 }
-
 
 /**
  * Group all entries by day.
