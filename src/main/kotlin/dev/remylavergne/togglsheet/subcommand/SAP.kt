@@ -48,7 +48,7 @@ class SAP : CliktCommand(
     private val hoursPerDay: Int by option(
         "-h",
         "--hours",
-        help = "Nombre d'heure à prester par jour."
+        help = "Nombre d'heure à prester par jour (défaut: 8)."
     ).int().default(8)
     private val groupProjectByDay: Boolean by option(
         "-g",

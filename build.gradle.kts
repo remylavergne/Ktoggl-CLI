@@ -40,7 +40,6 @@ dependencies {
     implementation("org.apache.poi:poi-ooxml:4.1.2")
 }
 
-
 tasks.test {
     useJUnit()
     useJUnitPlatform()
@@ -51,14 +50,14 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClassName = "dev.remylavergne.togglsheet.mainKt"
+    mainClassName = "dev.remylavergne.togglsheet.MainKt"
 }
 
-/*tasks.shadowJar {
-    archiveBaseName.set("shadow")
+tasks.shadowJar {
+    archiveBaseName.set("ktoggl-cli")
     archiveClassifier.set("")
     archiveVersion.set(version)
     manifest {
         attributes(mapOf("Main-Class" to application.mainClassName))
     }
-}*/
+}

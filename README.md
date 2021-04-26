@@ -2,7 +2,8 @@
 
 **Ktoggl CLI** vous permet d'utiliser l'*API Toggl* via un *CLI* entièrement écrit en Kotlin 🚀.
 
-La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos enregistrements sur l'application [**Toggl**](https://toggl.com/track/toggl-desktop/).
+La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos
+enregistrements sur l'application [**Toggl**](https://toggl.com/track/toggl-desktop/).
 
 ## Fonctionnalités
 
@@ -10,9 +11,12 @@ La première feature disponible est la génération d'un *Excel* de timesheets u
 
 ![](./readme-resources/toggl-to-sap.png)
 
-⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme un workaround 🤓
+⚠️ La seule contrainte de cette feature est que les informations des projets pointés doivent se trouver dans le titre du
+projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoir accès aux **Tasks**. Prenez cela comme
+un workaround 🤓
 
-Les projets dans **Ktoggl CLI** doivent être sous cette forme : `id_projet description_projet id_tâche description_tâche`
+Les projets dans **Ktoggl CLI** doivent être sous cette
+forme : `id_projet description_projet id_tâche description_tâche`
 
 Si un nom de client est disponible, il faut le rajouter aussi. *Attention à la casse !*
 
@@ -23,16 +27,17 @@ C'est la seule manipulation nécessaire en amont pour que la génération du fic
 Exemple de commande pour générer ce fichier :
 
 ```shell
-ktoggl sap --api-key votre_clef_api_toggl --workspace le_workspace_id_voulu --since 2021-04-15
+$ java -jar ktoggl-cli-0.0.1.jar sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15
 ```
 
 `--api-key` : Votre clef API se trouve dans vos paramètres de compte Toggl <br />
 `--workspace` : L'id du workspace visé (se trouve facilement dans l'url)<br />
 `--since` : Date de début pour la récupération des données<br />
 `--until` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
-`--no-group` : Ne pas grouper les mêmes projets sur une journée<br />
+`-g` / `--no-group` : Ne pas grouper les mêmes projets sur une journée<br />
 
-A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en plus, ou en moins.
+A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en
+plus, ou en moins.
 
 Exemple de résultat (⚠️ ceci risque de changer dans le temps) :
 
@@ -61,10 +66,12 @@ Total expected: 112 hours
 - 2021-04-05: - 7.25
 ```
 
-Le fichier Excel généré est directement importable dans **SAP CATS**. Vous pouvez ainsi ajuster vos pointages avec le compte rendu.
+Le fichier Excel généré est directement importable dans **SAP CATS**. Vous pouvez ainsi ajuster vos pointages avec le
+compte rendu.
 
 ![](./readme-resources/excel-export-example.png)
 
-Vous remarquerez que les heures ont été arrondies au quart supérieur, ou inférieur, pour respecter le standard de pointage de **SAP CATS**.
+Vous remarquerez que les heures ont été arrondies au quart supérieur, ou inférieur, pour respecter le standard de
+pointage de **SAP CATS**.
 
 Vous pouvez maintenant uploader cet Excel dans votre **SAP CATS**.
