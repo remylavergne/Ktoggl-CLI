@@ -29,7 +29,7 @@ Exemple de commande pour générer ce fichier :
 - Avec le fichier **JAR** :
 
 ```shell
-$ java -jar ktoggl-cli-0.0.1.jar sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
+$ java -jar ktoggl-cli-0.0.2.jar sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
 - Avec **DockerHub** [Ktoggl-CLI](https://hub.docker.com/r/remylavergne/ktoggl-cli) *(prendre la dernière version)* 🐳:
