@@ -3,6 +3,7 @@ package dev.remylavergne.togglsheet
 import dev.remylavergne.togglsheet.models.SapExcelData
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.File
 import java.io.FileOutputStream
 
 /**
@@ -90,7 +91,8 @@ data class SapExcel(
 
     }
 
-    private fun createFile(name: String = "${System.currentTimeMillis()}_${data.first().date}_${data.last().date}.xlsx") {
+    private fun createFile(name: String = "ktoggl-cli-output/${System.currentTimeMillis()}_${data.first().date}_${data.last().date}.xlsx") {
+        File("ktoggl-cli-output").mkdir()
         val fileOut = FileOutputStream(name)
         workbook.write(fileOut)
         fileOut.close()
