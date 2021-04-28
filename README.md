@@ -1,9 +1,8 @@
 # Ktoggl CLI
 
-**Ktoggl CLI** vous permet d'utiliser l'*API Toggl* via un *CLI* entièrement écrit en Kotlin 🚀.
+**Ktoggl CLI** vous permet de générer vos timesheets / fichiers de pointages via le logiciel [**Toggl Track**](https://toggl.com/track/toggl-desktop/).
 
-La première feature disponible est la génération d'un *Excel* de timesheets utilisable dans **SAP CATS** via vos
-enregistrements sur l'application [**Toggl**](https://toggl.com/track/toggl-desktop/).
+**Ktoggl CLI n'est pas affilié à la marque / société / logiciel Toggl.**
 
 ## Fonctionnalités
 
@@ -16,9 +15,9 @@ projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoi
 un workaround 🤓
 
 Les projets dans **Ktoggl CLI** doivent être sous cette
-forme : `id_projet description_projet id_tâche description_tâche`
+forme : `id_projet description_projet id_tâche description_tâche` pour représenter au mieux le fonctionnement de **SAP CATS**.
 
-Si un nom de client est disponible, il faut le rajouter aussi. *Attention à la casse !*
+Si un nom de client est disponible, il faut le rajouter aussi (*Attention à la casse !*) :
 
 ![](./readme-resources/project-formating-example.png)
 
@@ -36,8 +35,10 @@ $ java -jar ktoggl-cli-0.0.2.jar sap --api-key <votre_clef_api_toggl> --workspac
 
 ```shell
 $ docker pull remylavergne/ktoggl-cli:0.0.2
+
 $ docker run -it --rm -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output remylavergne/ktoggl-cli:0.0.2
-// Dans le container
+
+
 bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
@@ -45,8 +46,9 @@ bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_worksp
 
 ```shell
 $ docker build --no-cache --rm -t remylavergne/ktoggl-cli:0.0.2 .
+
 $ docker run -it --rm -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output remylavergne/ktoggl-cli:0.0.2
-// Dans le container
+
 bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
@@ -56,7 +58,7 @@ bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_worksp
 `--until`, `-u` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
 `-g` / `--no-group` : Grouper / ne pas grouper les mêmes projets sur une journée<br />
 
-A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en
+A la fin du processus, des logs permettent d'avoir un aperçu de ce qui a été généré, avec les différences de temps en
 plus, ou en moins.
 
 Exemple de résultat (⚠️ ceci risque de changer dans le temps) :
