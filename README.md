@@ -50,11 +50,11 @@ $ docker run -it --rm -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output remylaver
 bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
-`--api-key` : Votre clef API se trouve dans vos paramètres de compte Toggl <br />
-`--workspace` : L'id du workspace visé (se trouve facilement dans l'url)<br />
-`--since` : Date de début pour la récupération des données<br />
-`--until` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
-`-g` / `--no-group` : Ne pas grouper les mêmes projets sur une journée<br />
+`--api-key`, `-a` : Votre clef API se trouve dans vos paramètres de compte Toggl <br />
+`--workspace`, `-w` : L'id du workspace visé (se trouve facilement dans l'url)<br />
+`--since`, `-s` : Date de début pour la récupération des données<br />
+`--until`, `-u` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
+`-g` / `--no-group` : Grouper / ne pas grouper les mêmes projets sur une journée<br />
 
 A la fin du processus, des logs permettent d'avoir un apperçu de ce qui a été généré, avec les différences de temps en
 plus, ou en moins.
@@ -66,7 +66,7 @@ Exemple de résultat (⚠️ ceci risque de changer dans le temps) :
 
 -> Summary
 14 days exported
-Total: 129.96 hours
+Total: 110.0 hours
 Total expected: 112 hours
 
 -> Differences based on 8 hours shift / day:
@@ -76,12 +76,9 @@ Total expected: 112 hours
 - 2021-04-19: - 0.25
 - 2021-04-16: + 0.25
 - 2021-04-15: + 0.5
-- 2021-04-14: 0.0
-- 2021-04-13: 0.0
 - 2021-04-12: + 0.5
 - 2021-04-09: - 0.25
 - 2021-04-08: - 0.25
-- 2021-04-07: 0.0
 - 2021-04-06: + 2.5
 - 2021-04-05: - 7.25
 ```
