@@ -1,5 +1,5 @@
 
-rootProject.name = "toggl-sap-timesheet"
+rootProject.name = "ktoggl-cli"
 
 include(":Ktoggl")
 
