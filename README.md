@@ -15,7 +15,7 @@ projet. En effet, avec la version gratuite de **Toggl**, vous ne pouvez pas avoi
 un workaround 🤓
 
 Les projets dans **Ktoggl CLI** doivent être sous cette
-forme : `id_projet description_projet id_tâche description_tâche` pour représenter au mieux le fonctionnement de **SAP CATS**.
+forme : `<id_projet> <description_projet> <id_tache> <description_tache>` pour représenter au mieux le fonctionnement de **SAP CATS**.
 
 Si un nom de client est disponible, il faut le rajouter aussi (*Attention à la casse !*) :
 
@@ -25,40 +25,43 @@ C'est la seule manipulation nécessaire en amont pour que la génération du fic
 
 Exemple de commande pour générer ce fichier :
 
-- Avec le fichier **JAR** :
+- 🗄 Avec le fichier **JAR** :
 
 ```shell
-$ java -jar ktoggl-cli-0.0.2.jar sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
+$ java -jar ktoggl-cli-0.0.2.jar timesheet sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
-- Avec **DockerHub** [Ktoggl-CLI](https://hub.docker.com/r/remylavergne/ktoggl-cli) *(prendre la dernière version)* 🐳:
+- 🐳 Avec **DockerHub** [Ktoggl-CLI](https://hub.docker.com/r/remylavergne/ktoggl-cli) :
 
 ```shell
-$ docker pull remylavergne/ktoggl-cli:0.0.2
+$ docker pull remylavergne/ktoggl-cli
 
-$ docker run -it --rm -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output remylavergne/ktoggl-cli:0.0.2
+$ docker run -d -it -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output --name ktoggl-cli remylavergne/ktoggl-cli
 
+$ docker exec -it ktoggl-cli bash
 
-bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
+bash-4.4# ktoggl-cli timesheet sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
-- Avec le **Dockerfile** *(prendre la dernière version)* :
+- 🐳 Avec le **Dockerfile** :
 
 ```shell
-$ docker build --no-cache --rm -t remylavergne/ktoggl-cli:0.0.2 .
+$ docker build --no-cache --rm -t remylavergne/ktoggl-cli .
 
-$ docker run -it --rm -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output remylavergne/ktoggl-cli:0.0.2
+$ docker run -d -it -v $PWD/output:/usr/src/ktoggl/ktoggl-cli-output --name ktoggl-cli remylavergne/ktoggl-cli
 
-bash-4.4# ktoggl-cli sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
+$ docker exec -it ktoggl-cli bash
+
+bash-4.4# ktoggl-cli timesheet sap --api-key <votre_clef_api_toggl> --workspace <le_workspace_id_ciblé> --since 2021-04-15 -g
 ```
 
 `--api-key`, `-a` : Votre clef API se trouve dans vos paramètres de compte Toggl <br />
 `--workspace`, `-w` : L'id du workspace visé (se trouve facilement dans l'url)<br />
 `--since`, `-s` : Date de début pour la récupération des données<br />
-`--until`, `-u` : Date de fin pour la récupération des données (si vide, le jour actuel est pris en compte)<br />
+`--until`, `-u` : Date de fin pour la récupération des données (si vide, `since` + 6 jours)<br />
 `-g` / `--no-group` : Grouper / ne pas grouper les mêmes projets sur une journée<br />
 
-A la fin du processus, des logs permettent d'avoir un aperçu de ce qui a été généré, avec les différences de temps en
+À la fin du processus, des logs permettent d'avoir un aperçu de ce qui a été généré, avec les différences de temps en
 plus, ou en moins.
 
 Exemple de résultat (⚠️ ceci risque de changer dans le temps) :
