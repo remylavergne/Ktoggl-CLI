@@ -2,9 +2,9 @@ package dev.remylavergne.togglsheet
 
 import com.github.ajalt.clikt.core.NoOpCliktCommand
 
-class TogglSheet : NoOpCliktCommand(
-    help = "An easy CLI to generate your timesheet from Toggl",
+class KtogglCli : NoOpCliktCommand(
+    help = "A Kotlin CLI to interact with Toggl API.",
     invokeWithoutSubcommand = true,
     printHelpOnEmptyArgs = true,
-    name = "togglsheet"
+    name = "ktoggl-cli"
 )

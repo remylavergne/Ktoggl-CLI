@@ -6,7 +6,6 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
-import dev.remylavergne.ktoggl.USER_AGENT
 import dev.remylavergne.ktoggl.report.KtogglReportApi
 import dev.remylavergne.ktoggl.report.models.BaseDetails
 import dev.remylavergne.ktoggl.report.models.TimeEntry
@@ -20,47 +19,49 @@ import dev.remylavergne.togglsheet.toHours
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 
-class SAP : CliktCommand(
-    help = "Generate an .xlsx with your timesheet for SAP",
+class Sap : CliktCommand(
+    help = "Generate an Excel file to import your timesheet easily in SAP CATS.",
     invokeWithoutSubcommand = true,
     printHelpOnEmptyArgs = true
 ) {
     private val apiKey: String by option(
         "-a",
         "--api-key",
-        help = "API Toggl key"
+        help = "Your Toggl API key. Available in your profile parameters"
     ).default("")
     private val workspaceId: String by option(
         "-w",
         "--workspace",
-        help = "The workspace ID targeted"
+        help = "The workspace whose data you want to access."
     ).default("")
     private val since: String by option(
         "-s",
         "--since",
-        help = "Date de début de l'extract des données (ex: 2021-03-01). Par défaut, les données de la dernière semaine sont renvoyées."
+        help = "(Optional) ISO 8601 date (YYYY-MM-DD) format. Defaults to today - 6 days."
     ).default("")
     private val until: String by option(
         "-u",
         "--until",
-        help = "Date de fin de l'extract des données (ex: 2021-03-01)."
+        help = "(Optional) ISO 8601 date (YYYY-MM-DD) format. Note: Maximum date span (until - since) is one year. Defaults to today, unless since is in future or more than year ago, in this case until is since + 6 days."
     ).default("")
     private val hoursPerDay: Int by option(
         "-h",
         "--hours",
-        help = "Nombre d'heure à prester par jour (défaut: 8)."
+        help = "(Optional) Hours daily worked (default: 8)"
     ).int().default(8)
     private val groupProjectByDay: Boolean by option(
         "-g",
-        "--group",
+        "--group-entries",
         help = "Groupe les mêmes projets sur la même journée"
-    ).flag("--no-group")
+    ).flag("--no-group-entries") // TODO: Make group default
+
+    private val userAgent: String = "ktoggl-cli"
 
 
     override fun run() {
 
         if (apiKey.isEmpty() || workspaceId.isEmpty()) {
-            throw Exception("Manadatory informations are missing")
+            throw Exception("API key, or workspace id, missing")
         }
 
         val ktogglReportApi = KtogglReportApi {
@@ -71,8 +72,8 @@ class SAP : CliktCommand(
 
         val apiResult: ApiResult<BaseDetails> = runBlocking {
             return@runBlocking ktogglReportApi.detailsWithoutPaging {
-                userAgent(USER_AGENT) // TODO: Make optional
                 workspaceId(workspaceId)
+                userAgent(userAgent)
 
                 if (since.isNotEmpty()) {
                     since(LocalDate.parse(since))
@@ -90,7 +91,7 @@ class SAP : CliktCommand(
                 generateExcelFile(excelData)
                 displayReport(apiResult.data)
             }
-            is ApiResult.Error -> throw Exception("Unable to retrieve informations from Toggl API...")
+            is ApiResult.Error -> throw Exception("Erro while retrieving data from Toggl API. Please retry, or, contact me at: lavergne.remy@gmail.com")
         }
     }
 
