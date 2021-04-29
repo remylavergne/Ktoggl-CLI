@@ -80,7 +80,7 @@ class Sap : CliktCommand(
                 }
 
                 if (until.isNotEmpty()) {
-                    until(LocalDate.parse(since))
+                    until(LocalDate.parse(until))
                 }
             }
         }

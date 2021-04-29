@@ -77,18 +77,25 @@ data class SapExcel(
 
         for (task in data) {
             val row: Row = sheet.createRow(rowNum++)
-            row.createCell(0).setCellValue(task.date)
-            row.createCell(1).setCellValue(task.project)
-            row.createCell(2).setCellValue(task.projectDescription)
-            row.createCell(3).setCellValue(task.task)
-            row.createCell(4).setCellValue(task.taskDescription)
-            row.createCell(5).setCellValue(task.customerName)
-            row.createCell(6).setCellValue(task.hours)
-            row.createCell(7).setCellValue(task.sp)
-            row.createCell(8).setCellValue(task.ticket)
-            row.createCell(9).setCellValue(task.comment)
-        }
 
+            // background color
+            val errorStyle: CellStyle = workbook.createCellStyle()
+            if (task.project == "00000000") {
+                errorStyle.fillBackgroundColor = IndexedColors.LIGHT_BLUE.getIndex()
+                errorStyle.fillPattern = FillPatternType.SPARSE_DOTS;
+            }
+
+            row.createCell(0).apply { cellStyle = errorStyle }.setCellValue(task.date)
+            row.createCell(1).apply { cellStyle = errorStyle }.setCellValue(task.project)
+            row.createCell(2).apply { cellStyle = errorStyle }.setCellValue(task.projectDescription)
+            row.createCell(3).apply { cellStyle = errorStyle }.setCellValue(task.task)
+            row.createCell(4).apply { cellStyle = errorStyle }.setCellValue(task.taskDescription)
+            row.createCell(5).apply { cellStyle = errorStyle }.setCellValue(task.customerName)
+            row.createCell(6).apply { cellStyle = errorStyle }.setCellValue(task.hours)
+            row.createCell(7).apply { cellStyle = errorStyle }.setCellValue(task.sp)
+            row.createCell(8).apply { cellStyle = errorStyle }.setCellValue(task.ticket)
+            row.createCell(9).apply { cellStyle = errorStyle }.setCellValue(task.comment)
+        }
     }
 
     private fun createFile(name: String = "ktoggl-cli-output/${System.currentTimeMillis()}_${data.first().date}_${data.last().date}.xlsx") {
