@@ -91,7 +91,7 @@ class Sap : CliktCommand(
                 generateExcelFile(excelData)
                 displayReport(apiResult.data)
             }
-            is ApiResult.Error -> throw Exception("Erro while retrieving data from Toggl API. Please retry, or, contact me at: lavergne.remy@gmail.com")
+            is ApiResult.Error -> throw Exception("Error while retrieving data from Toggl API. Please retry, or, contact me at: lavergne.remy@gmail.com")
         }
     }
 
@@ -186,7 +186,7 @@ fun BaseDetails.toSapExcelGroupedData(): List<SapExcelData> {
         groupByDailyProject.map { projectTimeEntries: List<TimeEntry> ->
             // Concat informations
             val projectHoursSum: Long = projectTimeEntries.sumOf { it.dur }
-            val projectDescriptions = projectTimeEntries.joinToString(separator = " ; ") { it.description }
+            val projectDescriptions = projectTimeEntries.map { it.description }.toSet().joinToString(" ; ")
 
             val projectData = ProjectData(projectTimeEntries.first().project ?: "")
 
