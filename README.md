@@ -60,6 +60,7 @@ bash-4.4# ktoggl-cli timesheet sap --api-key <votre_clef_api_toggl> --workspace 
 `--since`, `-s` : Date de début pour la récupération des données<br />
 `--until`, `-u` : Date de fin pour la récupération des données (si vide, `since` + 6 jours)<br />
 `-g` / `--no-group` : Grouper / ne pas grouper les mêmes projets sur une journée<br />
+`-t`, `--tag` : Permet de filtrer sur un tag spécifique (ex : `-t private -t maths`)
 
 À la fin du processus, des logs permettent d'avoir un aperçu de ce qui a été généré, avec les différences de temps en
 plus, ou en moins.
