@@ -78,11 +78,11 @@ data class SapExcel(
         for (task in data) {
             val row: Row = sheet.createRow(rowNum++)
 
-            // background color
-            val errorStyle: CellStyle = workbook.createCellStyle()
-            if (task.project == "00000000") {
-                errorStyle.fillBackgroundColor = IndexedColors.LIGHT_BLUE.getIndex()
-                errorStyle.fillPattern = FillPatternType.SPARSE_DOTS;
+            val errorStyle: CellStyle = workbook.createCellStyle().apply {
+                if (task.project == "00000000" || task.task == "000000") {
+                    fillForegroundColor = IndexedColors.GREY_40_PERCENT.getIndex()
+                    fillPattern = FillPatternType.SOLID_FOREGROUND
+                }
             }
 
             row.createCell(0).apply { cellStyle = errorStyle }.setCellValue(task.date)
