@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 LABEL maintainer="remylavergne@icloud.com"
 
-ARG version=0.0.3
+ARG version=0.0.4-alpha
 
 WORKDIR /usr/src/ktoggl
  
