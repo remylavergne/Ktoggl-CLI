@@ -4,12 +4,15 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import dev.remylavergne.ktoggl.report.KtogglReportApi
 import dev.remylavergne.ktoggl.report.models.BaseDetails
 import dev.remylavergne.ktoggl.report.models.TimeEntry
 import dev.remylavergne.ktoggl.report.service.ApiResult
+import dev.remylavergne.ktoggl.v8.KtogglV8Api
+import dev.remylavergne.ktoggl.v8.Tags
 import dev.remylavergne.togglsheet.SapExcel
 import dev.remylavergne.togglsheet.iso8601ToSimpleDate
 import dev.remylavergne.togglsheet.millisToSapHours
@@ -44,6 +47,12 @@ class Sap : CliktCommand(
         "--until",
         help = "(Optional) ISO 8601 date (YYYY-MM-DD) format. Note: Maximum date span (until - since) is one year. Defaults to today, unless since is in future or more than year ago, in this case until is since + 6 days."
     ).default("")
+    private val tags: List<String> by option(
+        "-t",
+        "--tag",
+        help = "(Optional) Tag name, which assigned for the time entry"
+    ).multiple()
+
     private val hoursPerDay: Int by option(
         "-h",
         "--hours",
@@ -64,6 +73,28 @@ class Sap : CliktCommand(
             throw Exception("API key, or workspace id, missing")
         }
 
+        val tagIds = mutableListOf<Int>()
+        if (tags.isNotEmpty()) {
+            val ktogglV8Api = KtogglV8Api {
+                account {
+                    apiToken(apiKey)
+                }
+            }
+
+            runBlocking {
+                val apiResultTags = ktogglV8Api.workspace(workspaceId).getTags()
+
+                when (apiResultTags) {
+                    is ApiResult.Success -> {
+                        val tagIdsFound: List<Int> =
+                            apiResultTags.data.filter { t: Tags -> tags.any { it == t.name } }.map { it.id }
+                        tagIds.addAll(tagIdsFound)
+                    }
+                    is ApiResult.Error -> throw Exception("Error while retrieving tags data from Toggl API. Please retry, or, contact me at: lavergne.remy@gmail.com")
+                }
+            }
+        }
+
         val ktogglReportApi = KtogglReportApi {
             account {
                 apiToken(apiKey)
@@ -81,6 +112,10 @@ class Sap : CliktCommand(
 
                 if (until.isNotEmpty()) {
                     until(LocalDate.parse(until))
+                }
+
+                if (tagIds.isNotEmpty()) {
+                    tagsIds(tagIds)
                 }
             }
         }
