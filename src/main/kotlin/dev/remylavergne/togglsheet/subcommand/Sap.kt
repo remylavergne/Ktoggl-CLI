@@ -12,7 +12,7 @@ import dev.remylavergne.ktoggl.report.models.BaseDetails
 import dev.remylavergne.ktoggl.report.models.TimeEntry
 import dev.remylavergne.ktoggl.report.service.ApiResult
 import dev.remylavergne.ktoggl.v8.KtogglV8Api
-import dev.remylavergne.ktoggl.v8.Tags
+import dev.remylavergne.ktoggl.v8.models.Tags
 import dev.remylavergne.togglsheet.SapExcel
 import dev.remylavergne.togglsheet.iso8601ToSimpleDate
 import dev.remylavergne.togglsheet.millisToSapHours
@@ -82,7 +82,7 @@ class Sap : CliktCommand(
             }
 
             runBlocking {
-                val apiResultTags = ktogglV8Api.workspace(workspaceId).getTags()
+                val apiResultTags = ktogglV8Api.workspace().getTags(workspaceId)
 
                 when (apiResultTags) {
                     is ApiResult.Success -> {
