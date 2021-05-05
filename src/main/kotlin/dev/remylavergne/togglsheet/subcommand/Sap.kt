@@ -60,9 +60,9 @@ class Sap : CliktCommand(
     ).int().default(8)
     private val groupProjectByDay: Boolean by option(
         "-g",
-        "--group-entries",
-        help = "Groupe les mêmes projets sur la même journée"
-    ).flag("--no-group-entries") // TODO: Make group default
+        "--group",
+        help = "Group same entries for the same day."
+    ).flag("--no-group", default = false)
 
     private val userAgent: String = "ktoggl-cli"
 
