@@ -15,27 +15,17 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0")
 
     implementation(project(":Ktoggl"))
 
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
-    // implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.12.2")
     testImplementation("io.kotest:kotest-runner-junit5:4.4.3")
     testImplementation(kotlin("test-junit"))
     testImplementation("io.kotest:kotest-assertions-core:4.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC")
-
-    // HTTP Client
-    /*val ktorVersion = "1.5.3"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
-    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("io.ktor:ktor-client-logging:$ktorVersion")*/
 
     // Excel
     implementation("org.apache.poi:poi-ooxml:4.1.2")
@@ -61,4 +51,5 @@ tasks.shadowJar {
     manifest {
         attributes(mapOf("Main-Class" to application.mainClassName))
     }
+    minimize()
 }

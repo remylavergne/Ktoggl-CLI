@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-LABEL maintainer="remylavergne@icloud.com"
+LABEL maintainer="contact@remylavergne.dev"
 
 ARG version=0.0.4-alpha
 
