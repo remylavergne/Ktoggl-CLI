@@ -18,7 +18,6 @@ import dev.remylavergne.togglsheet.iso8601ToSimpleDate
 import dev.remylavergne.togglsheet.millisToSapHours
 import dev.remylavergne.togglsheet.models.ProjectData
 import dev.remylavergne.togglsheet.models.SapExcelData
-import dev.remylavergne.togglsheet.toHours
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 
@@ -124,7 +123,7 @@ class Sap : CliktCommand(
             is ApiResult.Success -> {
                 val excelData: List<SapExcelData> = formatData(apiResult.data)
                 generateExcelFile(excelData)
-                displayReport(apiResult.data)
+                displayReport(excelData)
             }
             is ApiResult.Error -> throw Exception("Error while retrieving data from Toggl API. Please retry, or, contact me at: lavergne.remy@gmail.com")
         }
@@ -151,25 +150,20 @@ class Sap : CliktCommand(
     /**
      * Affiche dans la console, un résumé de la génération avec des informations sur les différences de temps par jour
      */
-    private fun displayReport(data: BaseDetails) {
-        val entriesPerDay: Map<String, List<TimeEntry>> = data.data.groupByDayWithEntries()
-        val totalHours = data.data.map { it.dur }.sum().toHours()
+    private fun displayReport(data: List<SapExcelData>) {
+        val entriesPerDay: Map<String, List<SapExcelData>> = data.groupBy { it.date }
+        val totalHours = data.sumOf { it.hours }
 
         TermUi.echo("\n-> Summary")
-        TermUi.echo("${entriesPerDay.size} days exported") // TODO: Calcul faux car compte les week-end // Sortir les jours à 0h / tasks ?
+        TermUi.echo("${entriesPerDay.size} days exported")
         TermUi.echo("Total: $totalHours hours")
         TermUi.echo("Total expected: ${hoursPerDay * entriesPerDay.size} hours\n")
 
+        TermUi.echo("-> Differences based on $hoursPerDay hours shift / day (with at least one entry):")
+        entriesPerDay.forEach { (date: String, entries: List<SapExcelData>) ->
+            val totalHoursDone: Double = entries.sumOf { timeEntry: SapExcelData -> timeEntry.hours }
 
-        TermUi.echo("-> Differences based on $hoursPerDay hours shift / day:")
-        entriesPerDay.forEach { (date: String, entries: List<TimeEntry>) ->
-            val totalHoursDone: Long = entries.map { timeEntry: TimeEntry ->
-                timeEntry.dur
-            }.sum()
-
-            val hoursRounded: Double = totalHoursDone.millisToSapHours()
-
-            val diffHours = hoursPerDay - hoursRounded
+            val diffHours = hoursPerDay - totalHoursDone
 
             when {
                 diffHours < 0.0 -> TermUi.echo("- $date: + ${diffHours * -1}")
