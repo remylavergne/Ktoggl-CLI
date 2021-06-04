@@ -236,15 +236,6 @@ fun BaseDetails.toSapExcelGroupedData(): List<SapExcelData> {
 }
 
 /**
- * Group all entries by day.
- */
-fun List<TimeEntry>.groupByDay(): Map<String, List<TimeEntry>> {
-    return this.groupBy { timeEntry: TimeEntry ->
-        timeEntry.start.iso8601ToSimpleDate()
-    }
-}
-
-/**
  * Group all entries by day, with only days with entries. Empty days are ignored.
  */
 fun List<TimeEntry>.groupByDayWithEntries(): Map<String, List<TimeEntry>> {
